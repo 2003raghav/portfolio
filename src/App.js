@@ -2,6 +2,7 @@ import './App.css';
 import React, { useRef } from 'react';
 import Navbar from './Components/Navbar';
 import Sections from './Components/Sections';
+import Footer from './Components/Footer';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         projectsRef={projectsRef}
         contactRef={contactRef}
       />
+      <Footer/>
     </div>
   );
 }
