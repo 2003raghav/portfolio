@@ -1,129 +1,341 @@
 import React from 'react';
 import coverImage from '../Images/CoverPage.png';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import bank from '../Images/bank.jpg';
+import Portfolio from '../Images/Portfolio.png';
+import Servicefront from '../Images/Servicefront.png'
+import Serviceback from '../Images/Serviceback.png'
+import ResumePDF from '../Images/Raghavendra_Kashyap_CB(1MJ22IS085).pdf';
 
 function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick }) {
   return (
     <div>
       {/* ================= HOME SECTION ================= */}
-      <div ref={homeRef}>
-        <div
-          className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center"
-          style={{
-            minHeight: '100vh',
-            backgroundImage: `url(${coverImage})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            boxShadow: '0 6px 20px rgba(235, 229, 221, 0.8)',
-          }}
-        >
-          <h1
-            className="fw-bold m-5 px-2"
-            style={{ fontFamily: 'cursive', fontSize: 'clamp(1.8rem, 5vw, 3rem)' }}
-          >
-            HI I'M RAGHAVENDRA KASHYAP
-          </h1>
+          <div ref={homeRef}>
+            <div
+              className="position-relative d-flex flex-column justify-content-center align-items-center p-3 p-md-4 p-lg-5"
+              style={{
+                minHeight: 'auto', // full viewport height
+                backgroundImage: `url(${coverImage})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                boxShadow: '0 6px 20px rgba(235, 229, 221, 0.8)',
+              }}
+            >
+              <h1
+                className="fw-bold p-1 p-md-3 m-lg-4 m-5 m-md-5 mt-lg-5 text-center"
+                style={{ fontFamily: 'cursive', fontSize: 'clamp(2.2rem, 6vw, 4rem)' }}
+              >
+                HI I'M RAGHAVENDRA KASHYAP
+              </h1>
 
-          <p className="fs-6 fs-md-5 px-3 text-center">
-            Full Stack Java Developer with expertise in building robust backend systems and
-            <br className="d-none d-md-block" />
-            dynamic frontend interfaces using modern web technologies
-          </p>
+              <p className="fs-4 fs-md-4 fs-lg-3 p-2 p-md-3 text-center">
+                Full Stack Java Developer with expertise in building robust backend systems and
+                <br className="d-none d-md-block" />
+                dynamic frontend interfaces using modern web technologies
+              </p>
 
-          <button
-            className="m-4 btn btn-outline-primary shadow px-4 px-md-5 py-2 py-md-3"
-            style={{ fontSize: '1rem' }}
-            onClick={onProjectsClick}
-          >
-            Projects
-          </button>
+              <button
+                className="m-4 btn btn-outline-primary shadow px-4 px-md-5 py-2 py-md-3"
+                style={{ fontSize: '1rem' }}
+                onClick={onProjectsClick}
+              >
+                Projects
+              </button>
 
-          {/* Left Sidebar (Desktop only) */}
-          <div
-            className="position-fixed d-none d-lg-flex flex-column align-items-center justify-content-center bg-white social-sidebar"
-            style={{
-              top: '30%',
-              left: 0,
-              width: '50px',
-              height: '40vh',
-              zIndex: 1050,
-              borderTopRightRadius: '10px',
-              borderBottomRightRadius: '10px',
-              boxShadow: '4px 4px 8px rgba(0,0,0,0.1)',
-            }}
-          >
-            <a href="https://www.linkedin.com/in/your-profile" target="_blank" className="my-2 text-dark">
-              <i className="bi bi-linkedin fs-4"></i>
-            </a>
-            <a href="https://www.instagram.com/your-profile" target="_blank" className="my-2 text-dark">
-              <i className="bi bi-instagram fs-4"></i>
-            </a>
-            <a href="mailto:your-email@example.com" className="my-2 text-dark">
-              <i className="bi bi-envelope fs-4"></i>
-            </a>
-            <a href="https://facebook.com" target="_blank" className="my-2 text-dark">
-              <i className="bi bi-facebook fs-4"></i>
-            </a>
+             <i className="bi bi-chevron-double-down fs-1 m-3 m-md-4 m-lg-5"></i>
+
+
+              {/* Left Sidebar (Desktop only) */}
+              <div
+                className="position-absolute d-none d-lg-flex flex-column align-items-center justify-content-center bg-white py-3"
+                style={{
+                  left: 0,
+                  top: '40%',
+                  transform: 'translateY(-50%)',
+                  width: '50px',
+                  height: 'auto',
+                  borderTopRightRadius: '10px',
+                  borderBottomRightRadius: '10px',
+                  boxShadow: '4px 4px 8px rgba(0,0,0,0.1)',
+                  zIndex: 1050,
+                }}
+              >
+                <a href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/" target="_blank" className="my-2 text-dark">
+                  <i className="bi bi-linkedin fs-4"></i>
+                </a>
+               
+                <a href="mailto:rkahyap2003@gmail.com" className="my-2 text-dark">
+                  <i className="bi bi-envelope fs-4"></i>
+                </a>
+                
+                <a href="https://github.com/2003raghav" target="_blank" className="my-2 text-dark">
+                  <i className="bi bi-github fs-3"></i>
+                </a>
+              </div>
+
+              {/* Bottom Bar (Mobile/Tablet only) */}
+              <div
+                className="position-relative d-flex d-lg-none justify-content-center  align-items-center bg-white w-100 py-2 mt-2 mt-md-3"
+                style={{
+                  top: '100%',
+                  left: 0,
+                  borderTop: '1px solid #ddd',
+                  boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
+                  zIndex: 1050,
+                }}
+              >
+                <a href="https://www.linkedin.com/in/your-profile" className="mx-3 text-dark">
+                  <i className="bi bi-linkedin fs-5"></i>
+                </a>
+                
+                <a href="mailto:your-email@example.com" className="mx-3 text-dark">
+                  <i className="bi bi-envelope fs-5"></i>
+                </a>
+               
+                <a href="https://github.com/2003raghav" className="mx-3 text-dark">
+                  <i className="bi bi-github fs-5"></i>
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Bottom Bar (Mobile/Tablet only) */}
-          <div
-            className="position-fixed d-flex d-lg-none justify-content-center bg-white w-100 py-2"
-            style={{
-              bottom: 0,
-              left: 0,
-              borderTop: '1px solid #ddd',
-              boxShadow: '0 -2px 6px rgba(0,0,0,0.1)',
-              zIndex: 1050,
-            }}
-          >
-            <a href="https://www.linkedin.com/in/your-profile" className="mx-3 text-dark">
-              <i className="bi bi-linkedin fs-5"></i>
-            </a>
-            <a href="https://www.instagram.com/your-profile" className="mx-3 text-dark">
-              <i className="bi bi-instagram fs-5"></i>
-            </a>
-            <a href="mailto:your-email@example.com" className="mx-3 text-dark">
-              <i className="bi bi-envelope fs-5"></i>
-            </a>
-            <a href="https://facebook.com" className="mx-3 text-dark">
-              <i className="bi bi-facebook fs-5"></i>
-            </a>
+
+          {/* ================= ABOUT SECTION ================= */}
+      <div
+        ref={aboutRef}
+        className="position-relative d-flex flex-column bg-light"
+        style={{ minHeight: 'auto',
+                boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.05)', 
+               background: 'linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)',
+               }}
+      >
+        {/* Heading */}
+        <h1 className="text-center py-5 fw-bold text-dark">
+          ABOUT ME
+          <div className="mx-auto bg-primary mt-3" style={{ height: "4px", width: "25%" }}></div>
+        </h1>
+
+        {/* Content */}
+        <div className="container pb-5">
+          <div className="row g-4">
+
+            {/* Left Column - About Text */}
+            <div className="col-md-7">
+              <div className="card shadow-sm border-0 rounded-4 h-100">
+                <div className="card-body p-4">
+                  <h2 className="fw-bold text-primary mb-3" style={{ fontFamily: "cursive" }}>
+                    Hello 👋
+                  </h2>
+
+                  <p className="fs-5 lh-lg text-muted">
+                    I am a{" "}
+                    <span className="fw-bold text-primary">Full-Stack Developer</span> with a strong focus on
+                    building responsive and user-friendly <b>Frontend</b> applications, while also developing
+                    scalable <b>Backend</b> solutions using{" "}
+                    <span className="fw-bold text-primary">Java</span> and{" "}
+                    <span className="fw-bold text-success">Spring Boot</span>.  
+                    Experienced in Websites, Web Applications, and IoT projects using{" "}
+                    <span className="fw-bold text-warning">ESP32</span> with real-time Firebase integration.
+                  </p>
+
+                  <p className="fs-5 lh-lg text-muted">
+                    I enjoy sharing knowledge and contributing to the developer community through projects and
+                    discussions. Connect with me on{" "}
+                    <a href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/`" className="fw-bold text-decoration-none text-primary">
+                      LinkedIn
+                    </a>{" "}
+                    where I share content about Web Development, Programming, and IoT.
+                  </p>
+
+                  <p className="fs-5 lh-lg text-muted">
+                    I am open to exciting opportunities where I can contribute, learn, and grow. If you have a
+                    role matching my skills, feel free to{" "}
+                    <span className="fw-bold text-dark">reach out</span>.
+                  </p>
+
+                  {/* CTA Button */}
+                  <a
+                    href={ResumePDF} 
+                    className="btn btn-primary btn-lg rounded-pill mt-3 shadow "target="_blank" rel="noopener noreferrer"
+                  
+                  >
+                    📄 Download Resume
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Skills */}
+            <div className="col-md-5">
+              <div className="card shadow-sm border-0 rounded-4 h-auto text-center">
+                <div className="card-body p-4">
+                  <h2 className="fw-bold text-success mb-4" style={{ fontFamily: "cursive" }}>
+                    Skills
+                  </h2>
+
+                  <div className="d-flex flex-wrap justify-content-center gap-4">
+                    {[
+                      "Java",
+                      "HTML",
+                      "CSS",
+                      "Spring Boot",
+                      "MySQL",
+                      "JavaScript",
+                      "RESTful APIs",
+                      "React.js",
+                      "Bootstrap",
+                      "Firebase",
+                      "ESP32",
+                      "GitHub",
+                    ].map((skill, index) => (
+                      <span
+                        key={index}
+                        className="badge rounded-pill text-bg-light border border-primary px-3 py-2 fs-6 fw-semibold shadow-sm"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
 
-      {/* ================= ABOUT SECTION ================= */}
-      <div
-        ref={aboutRef}
-        className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center"
-        style={{
-          minHeight: '100vh',
-          background: 'linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)',
-          boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.05)',
-        }}
-      >
-        <h1 className="fs-2 fs-md-1">About Section</h1>
-      </div>
-
-      {/* ================= PROJECT SECTION ================= */}
+                {/* ================= PROJECT SECTION ================= */}
       <div
         ref={projectsRef}
-        className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center"
+        className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center bg-light"
         style={{
-          minHeight: '100vh',
+          minHeight: "auto",
           background: 'linear-gradient(to bottom,#ffffff 0%,#ebe5dd 100%)',
-          boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.05)',
+          boxShadow: "inset 0 10px 20px rgba(0,0,0,0.05)",
         }}
       >
-        <h1 className="fs-2 fs-md-1">Projects Section</h1>
+        <h1 className="fs-2 fw-bold mt-5">My Projects</h1>
+        <div className="mx-auto bg-primary mt-2 mb-5 rounded" style={{ height: "4px", width: "25%" }}></div>
+
+        <div className="container">
+          <div className="row g-4 mb-5">
+
+
+
+              {/* Project Card 1 */}
+              <div className="col-md-4 col-sm-6 mb-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <img
+                    src={bank}
+                    className="card-img-top"
+                    alt="Bank Management System"
+                    style={{height: "200px" ,    
+                    width: "100%"}}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title fw-bold">Bank Management System</h5>
+                    <p className="card-text text-muted flex-grow-1">
+                      Manages account holder details and transactions. Built with Java Swing, JDBC, MySQL.
+                    </p>
+                    <a
+                      href="https://github.com/2003raghav/Bank-Management-System" className="btn btn-outline-primary mt-auto w-100">
+                      🔗 View Project
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Project Card 2 */}
+              <div className="col-md-4 col-sm-6 mb-4">
+                <div className="card h-100 shadow-sm border-0">
+                  <img
+                    src={Portfolio}
+                    className="card-img-top"
+                    alt="Portfolio"
+                    style={{height: "200px" ,     
+                    width: "100%"}}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title fw-bold">Portfolio Project</h5>
+                    <p className="card-text text-muted flex-grow-1">
+                      Portfolio website showcasing projects built with Java, JavaScript, React, MySQL, and Firebase, highlighting my skills and experience
+                    </p>
+                    <a href="https://github.com/2003raghav/portfolio" className="btn btn-outline-primary mt-auto w-100">
+                      🔗 View Project
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+
+            {/* Project Card 3 */}
+            <div className="col-md-4 col-sm-6 mb-4">
+              <div className="card h-100 shadow-sm border-0">
+                <img src={Servicefront}
+                 className="card-img-top img-fluid" 
+                 alt="Frontend website" 
+                 style={{height:"200px",
+                  width: "100%"
+                 }}/>
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">Vehicle Service Management Frontend</h5>
+                  <p className="card-text text-muted flex-grow-1">
+                    Responsive website to maintain vehicle service using React and Bootstrap.
+                  </p>
+                  <a href="https://github.com/2003raghav/Vehicle-service-management--dr.vehicle" className="btn btn-outline-primary mt-auto w-100">
+                    🔗 View Project
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Project Card 4 */}
+            <div className="col-md-4 col-sm-6 mb-4">
+              <div className="card h-100 shadow-sm border-0">
+                <img src={Serviceback} 
+                className="card-img-top img-fluid" 
+                alt="Backend site"
+                style={{height:200,
+                  width: "100%"
+                }} />
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">Vehicle Service Management Backend</h5>
+                  <p className="card-text text-muted flex-grow-1">
+                    Backend code using Java Spring Boot using JPA.
+                  </p>
+                  <a href="https://github.com/2003raghav/DrVehicle_Backend" className="btn btn-outline-primary mt-auto w-100">
+                    🔗 View Project
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Project Card 5 */}
+            <div className="col-md-4 col-sm-6">
+              <div className="card h-100 shadow-sm border-0">
+                <img src="/project5.jpg" className="card-img-top img-fluid" alt="Project 5" />
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">Project Title 5</h5>
+                  <p className="card-text text-muted flex-grow-1">
+                    Brief description about what makes this project special.
+                  </p>
+                  <a href="https://github.com/yourrepo5" className="btn btn-outline-primary mt-auto w-100">
+                    🔗 View Project
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
 
       {/* ================= CONTACT SECTION ================= */}
       <div ref={contactRef} 
-      className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center"
-      style={{minHeight: '100vh',
+      className=" position-relative px-3 d-flex flex-column justify-content-center align-items-center"
+      style={{minHeight: 'auto',
               backgroundImage: `url(${coverImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
@@ -131,10 +343,10 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
               }}
         >
         <form
-          className="w-100 w-sm-80 w-md-75 w-lg-60 h-auto p-4 p-md-5 shadow bg-white rounded mx-auto"
+          className="w-100 w-sm-80 w-md-75 w-lg-60 h-auto p-4 p-md-5 shadow bg-white rounded mx-auto m-5"
           style={{ maxWidth: 600, minWidth: 280 }}
         >
-          <h1 className="mb-4 fs-3">Contact Me!</h1>
+          <h1 className="mb-4 fs-3 text-center">Contact Me!</h1>
 
           <div className="mb-3">
             <label htmlFor="exampleInputName1" className="form-label fw-bold">Name</label>
@@ -153,10 +365,11 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
             <label htmlFor="exampleInputMessage" className="form-label fw-bold">Message</label>
             <textarea className="form-control" id="exampleInputMessage" rows="3"></textarea>
           </div>
-
-          <button type="submit" className="btn btn-primary w-50 w-sm-auto px-5">
+          <div className='text-center px-4 p-3'> 
+          <button type="submit" className="btn btn-primary w-50 w-sm-auto ">
             Submit
           </button>
+          </div>
         </form>
       </div>
     </div>
