@@ -6,8 +6,32 @@ import Portfolio from '../Images/Portfolio.png';
 import Servicefront from '../Images/Servicefront.png'
 import Serviceback from '../Images/Serviceback.png'
 import ResumePDF from '../Images/Raghavendra_Kashyap_CB(1MJ22IS085).pdf';
+import { db } from "../firebaseConfig";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick }) {
+   const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const message = e.target.message.value;
+
+    try {
+      await addDoc(collection(db, "contacts"), {
+        name,
+        email,
+        message,
+        createdAt: serverTimestamp(),
+      });
+
+      alert("✅ Message submitted successfully!");
+      e.target.reset();
+    } catch (err) {
+      console.error("Error adding document: ", err);
+      alert("❌ Something went wrong.");
+    }
+  };
   return (
     <div>
       {/* ================= HOME SECTION ================= */}
@@ -73,6 +97,12 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
                 <a href="https://github.com/2003raghav" target="_blank" className="my-2 text-dark">
                   <i className="bi bi-github fs-3"></i>
                 </a>
+                <a href="https://www.instagram.com/rkashyap2003/" target="_blank" className="my-2 text-dark">
+                  <i className="bi bi-instagram fs-4"></i>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100081586262153" target="_blank" className="my-2 text-dark">
+                  <i className="bi bi-facebook fs-4"></i>
+                </a>
               </div>
 
               {/* Bottom Bar (Mobile/Tablet only) */}
@@ -86,16 +116,22 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
                   zIndex: 1050,
                 }}
               >
-                <a href="https://www.linkedin.com/in/your-profile" className="mx-3 text-dark">
+                <a href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/" className="mx-3 text-dark">
                   <i className="bi bi-linkedin fs-5"></i>
                 </a>
                 
-                <a href="mailto:your-email@example.com" className="mx-3 text-dark">
+                <a href="mailto:rkahyap2003@gmail.com" className="mx-3 text-dark">
                   <i className="bi bi-envelope fs-5"></i>
                 </a>
                
                 <a href="https://github.com/2003raghav" className="mx-3 text-dark">
                   <i className="bi bi-github fs-5"></i>
+                </a>
+                <a href="https://www.instagram.com/rkashyap2003/" target="_blank" rel="noopener noreferrer"className="mx-3 text-dark">
+                  <i className="bi bi-instagram fs-5"></i>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100081586262153" className="mx-3 text-dark">
+                  <i className="bi bi-facebook fs-5"></i>
                 </a>
               </div>
             </div>
@@ -103,108 +139,138 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
 
 
           {/* ================= ABOUT SECTION ================= */}
-      <div
-        ref={aboutRef}
-        className="position-relative d-flex flex-column bg-light"
-        style={{ minHeight: 'auto',
-                boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.05)', 
-               background: 'linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)',
-               }}
-      >
-        {/* Heading */}
-        <h1 className="text-center py-5 fw-bold text-dark">
-          ABOUT ME
-          <div className="mx-auto bg-primary mt-3" style={{ height: "4px", width: "25%" }}></div>
-        </h1>
+            <div
+  ref={aboutRef}
+  className="position-relative d-flex flex-column bg-light "
+  style={{
+    minHeight: 'auto',
+    boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.05)',
+    background: 'linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)',
+  }}
+>
+  {/* Heading */}
+  <h1 className="text-center py-5 fw-bold text-dark ">
+    ABOUT ME
+    <div className="mx-auto bg-primary mt-3" style={{ height: "4px", width: "25%" }}></div>
+  </h1>
 
-        {/* Content */}
-        <div className="container pb-5">
-          <div className="row g-4">
+  {/* Content */}
+  <div className="container pb-5 ">
+    <div className="row g-4">
 
-            {/* Left Column - About Text */}
-            <div className="col-md-7">
-              <div className="card shadow-sm border-0 rounded-4 h-100">
-                <div className="card-body p-4">
-                  <h2 className="fw-bold text-primary mb-3" style={{ fontFamily: "cursive" }}>
-                    Hello 👋
-                  </h2>
+      {/* Left Column - About Text */}
+      <div className="col-md-7">
+        <div className="card shadow-sm border-0 rounded-4 h-100 border-primary">
+          <div className="card-body p-4">
+            <h2 className="fw-bold text-primary mb-3" style={{ fontFamily: "cursive" }}>
+              Hello 👋
+            </h2>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I am a{" "}
-                    <span className="fw-bold text-primary">Full-Stack Developer</span> with a strong focus on
-                    building responsive and user-friendly <b>Frontend</b> applications, while also developing
-                    scalable <b>Backend</b> solutions using{" "}
-                    <span className="fw-bold text-primary">Java</span> and{" "}
-                    <span className="fw-bold text-success">Spring Boot</span>.  
-                    Experienced in Websites, Web Applications, and IoT projects using{" "}
-                    <span className="fw-bold text-warning">ESP32</span> with real-time Firebase integration.
-                  </p>
+            <p className="fs-5 lh-lg text-muted">
+              I am a <span className="fw-bold text-primary">Full-Stack Developer</span> with a strong focus on
+              building responsive and user-friendly <b>Frontend</b> applications, while also developing
+              scalable <b>Backend</b> solutions using <span className="fw-bold text-primary">Java</span> and
+              <span className="fw-bold text-success">Spring Boot</span>. Experienced in Websites, Web Applications, 
+              and IoT projects using <span className="fw-bold text-warning">ESP32</span> with real-time Firebase integration.
+            </p>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I enjoy sharing knowledge and contributing to the developer community through projects and
-                    discussions. Connect with me on{" "}
-                    <a href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/`" className="fw-bold text-decoration-none text-primary">
-                      LinkedIn
-                    </a>{" "}
-                    where I share content about Web Development, Programming, and IoT.
-                  </p>
+            <p className="fs-5 lh-lg text-muted">
+              I enjoy sharing knowledge and contributing to the developer community through projects and discussions. 
+              Connect with me on{" "}
+              <a
+                href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/"
+                className="fw-bold text-decoration-none text-primary"
+              >
+                LinkedIn
+              </a>{" "}
+              where I share content about Web Development, Programming, and IoT.
+            </p>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I am open to exciting opportunities where I can contribute, learn, and grow. If you have a
-                    role matching my skills, feel free to{" "}
-                    <span className="fw-bold text-dark">reach out</span>.
-                  </p>
+            <p className="fs-5 lh-lg text-muted">
+              I am open to exciting opportunities where I can contribute, learn, and grow. If you have a role matching my skills, feel free to{" "}
+              <span className="fw-bold text-dark">reach out</span>.
+            </p>
 
-                  {/* CTA Button */}
-                  <a
-                    href={ResumePDF} 
-                    className="btn btn-primary btn-lg rounded-pill mt-3 shadow "target="_blank" rel="noopener noreferrer"
-                  
-                  >
-                    📄 Download Resume
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column - Skills */}
-            <div className="col-md-5">
-              <div className="card shadow-sm border-0 rounded-4 h-auto text-center">
-                <div className="card-body p-4">
-                  <h2 className="fw-bold text-success mb-4" style={{ fontFamily: "cursive" }}>
-                    Skills
-                  </h2>
-
-                  <div className="d-flex flex-wrap justify-content-center gap-4">
-                    {[
-                      "Java",
-                      "HTML",
-                      "CSS",
-                      "Spring Boot",
-                      "MySQL",
-                      "JavaScript",
-                      "RESTful APIs",
-                      "React.js",
-                      "Bootstrap",
-                      "Firebase",
-                      "ESP32",
-                      "GitHub",
-                    ].map((skill, index) => (
-                      <span
-                        key={index}
-                        className="badge rounded-pill text-bg-light border border-primary px-3 py-2 fs-6 fw-semibold shadow-sm"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
+            {/* CTA Button */}
+            <a
+              href={ResumePDF} 
+              className="btn btn-primary btn-lg rounded-pill mt-3 shadow"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              📄 Download Resume
+            </a>
           </div>
         </div>
       </div>
+
+      {/* Right Column - Skills & Education */}
+      <div className="col-md-5 d-flex flex-column gap-4">
+        
+        {/* Skills Section */}
+        <div className="card shadow-sm border  rounded-4 h-auto text-center">
+          <div className="card-body p-4">
+            <h2 className="fw-bold text-success mb-4" style={{ fontFamily: "cursive" }}>
+              Skills
+            </h2>
+
+            <div className="d-flex flex-wrap justify-content-center gap-2">
+              {[
+                "Java",
+                "HTML",
+                "CSS",
+                "Spring Boot",
+                "MySQL",
+                "JavaScript",
+                "RESTful APIs",
+                "React.js",
+                "Bootstrap",
+                "Firebase",
+                "ESP32",
+                "GitHub",
+              ].map((skill, index) => (
+                <span
+                  key={index}
+                  className="badge rounded-pill text-bg-light border border-primary px-3 py-2 fs-6 fw-semibold shadow-sm"
+                  style={{ width:'150px' }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+       {/* Education Section */}
+        <div className="card shadow-sm border rounded-4 h-auto text-start" >
+          <div className="card-body p-4">
+            <h2 className="fw-bold text-primary mb-4 text-center" style={{ fontFamily: "cursive" }}>
+              Education
+            </h2>
+            <ul className="list-unstyled fs-6 lh-lg">
+              <li className="mb-2">
+                <strong>Bachelor of Engineering (CSE)</strong><br />
+                MVJ College of Engineering, 2022-2026 | 8.3 CGPA
+              </li>
+              <li className="mb-2">
+                <strong>12th Standard</strong><br />
+                St Mary’s PU College, 2020-2022 | 94.3%
+              </li>
+              <li className="mb-2">
+                <strong>10th Standard</strong><br />
+                St Mary’s PU College, 2019-2020 | 92.8%
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
                 {/* ================= PROJECT SECTION ================= */}
       <div
@@ -285,7 +351,7 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
                     Responsive website to maintain vehicle service using React and Bootstrap.
                   </p>
                   <a href="https://github.com/2003raghav/Vehicle-service-management--dr.vehicle" className="btn btn-outline-primary mt-auto w-100">
-                    🔗 View Project
+                    🔗 View Project (Ongoing)
                   </a>
                 </div>
               </div>
@@ -306,69 +372,91 @@ function Sections({ homeRef, aboutRef, projectsRef, contactRef, onProjectsClick 
                     Backend code using Java Spring Boot using JPA.
                   </p>
                   <a href="https://github.com/2003raghav/DrVehicle_Backend" className="btn btn-outline-primary mt-auto w-100">
-                    🔗 View Project
+                    🔗 View Project (Ongoing)
                   </a>
                 </div>
               </div>
             </div>
 
-            {/* Project Card 5 */}
-            <div className="col-md-4 col-sm-6">
-              <div className="card h-100 shadow-sm border-0">
-                <img src="/project5.jpg" className="card-img-top img-fluid" alt="Project 5" />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">Project Title 5</h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    Brief description about what makes this project special.
-                  </p>
-                  <a href="https://github.com/yourrepo5" className="btn btn-outline-primary mt-auto w-100">
-                    🔗 View Project
-                  </a>
-                </div>
-              </div>
-            </div>
-
+            
           </div>
         </div>
       </div>
 
       {/* ================= CONTACT SECTION ================= */}
-      <div ref={contactRef} 
-      className=" position-relative px-3 d-flex flex-column justify-content-center align-items-center"
-      style={{minHeight: 'auto',
-              backgroundImage: `url(${coverImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              boxShadow: 'inset 0 10px 20px rgba(0,0,0,0.1)',
-              }}
-        >
+      <div
+        ref={contactRef}
+        className="position-relative px-3 d-flex flex-column justify-content-center align-items-center"
+        style={{
+          minHeight: "auto",
+          backgroundImage: `url(${coverImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          boxShadow: "inset 0 10px 20px rgba(0,0,0,0.1)",
+        }}
+      >
         <form
           className="w-100 w-sm-80 w-md-75 w-lg-60 h-auto p-4 p-md-5 shadow bg-white rounded mx-auto m-5"
           style={{ maxWidth: 600, minWidth: 280 }}
+          onSubmit={handleSubmit}
         >
           <h1 className="mb-4 fs-3 text-center">Contact Me!</h1>
 
           <div className="mb-3">
-            <label htmlFor="exampleInputName1" className="form-label fw-bold">Name</label>
-            <input type="text" className="form-control" id="exampleInputName1" />
+            <label htmlFor="name" className="form-label fw-bold">
+              Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              required
+              style={{
+                background: "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
+              }}
+            />
           </div>
 
           <div className="mb-3">
-            <label htmlFor="exampleInputEmail" className="form-label fw-bold">Email</label>
-            <input type="email" className="form-control" id="exampleInputEmail" aria-describedby="emailHelp" />
+            <label htmlFor="email" className="form-label fw-bold">
+              Email
+            </label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              name="email"
+              required
+              style={{
+                background: "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
+              }}
+            />
             <div id="emailHelp" className="form-text fw-bold">
               We'll never share your email with anyone else.
             </div>
           </div>
 
           <div className="mb-3">
-            <label htmlFor="exampleInputMessage" className="form-label fw-bold">Message</label>
-            <textarea className="form-control" id="exampleInputMessage" rows="3"></textarea>
+            <label htmlFor="message" className="form-label fw-bold">
+              Message
+            </label>
+            <textarea
+              className="form-control"
+              id="message"
+              name="message"
+              rows="4"
+              required
+              style={{
+                background: "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
+              }}
+            ></textarea>
           </div>
-          <div className='text-center px-4 p-3'> 
-          <button type="submit" className="btn btn-primary w-50 w-sm-auto ">
-            Submit
-          </button>
+
+          <div className="text-center px-4 p-3">
+            <button type="submit" className="btn btn-primary w-50 w-sm-auto">
+              Submit
+            </button>
           </div>
         </form>
       </div>

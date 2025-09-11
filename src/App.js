@@ -29,7 +29,10 @@ function App() {
         projectsRef={projectsRef}
         contactRef={contactRef}
       />
-      <Footer/>
+      <Footer onHomeClick={() => scrollTo(homeRef)}
+        onAboutClick={() => scrollTo(aboutRef)}
+        onProjectsClick={() => scrollTo(projectsRef)}
+        onContactClick={() => scrollTo(contactRef)}/>
     </div>
   );
 }
