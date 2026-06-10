@@ -6,7 +6,8 @@ import Portfolio from "../Images/Portfolio.png";
 import Servicefront from "../Images/Servicefront.png";
 import Serviceback from "../Images/Serviceback.png";
 import quiz from "../Images/Quiz.png";
-import ResumePDF from "../Images/Raghavendra_Kashyap_CB_resume.pdf";
+import health from "../Images/Health.png";
+import ResumePDF from "../Images/Raghavendra_Kashyap_resume.pdf";
 import { db } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
@@ -271,14 +272,18 @@ function Sections({
                   <div className="d-flex flex-wrap justify-content-center gap-2">
                     {[
                       "Java",
+                      "Python",
                       "HTML5",
                       "CSS3",
                       "Spring Boot",
                       "MySQL",
                       "Oracle DB",
+                      "My SQL",
+                      "JDBC",
+                      "JPA",
                       "JavaScript",
                       "RESTful APIs",
-                      "React",
+                      "React.js",
                       "Tailwind CSS",
                       "Bootstrap",
                       "Firebase",
@@ -310,7 +315,7 @@ function Sections({
                     <li className="mb-2">
                       <strong>Bachelor of Engineering (ISE)</strong>
                       <br />
-                      MVJ College of Engineering, 2022-2026 | 8.45 CGPA
+                      MVJ College of Engineering, 2022-2026 | 8.52 CGPA
                     </li>
                     <li className="mb-2">
                       <strong>12th Standard</strong>
@@ -386,7 +391,7 @@ function Sections({
                   <h5 className="card-title fw-bold">Portfolio Project</h5>
                   <p className="card-text text-muted flex-grow-1">
                     Portfolio website showcasing projects built with Java,
-                    JavaScript, React, MySQL, and Firebase, highlighting my
+                    JavaScript, React.js, MySQL, and Firebase, highlighting my
                     skills and experience
                   </p>
                   <a
@@ -414,7 +419,7 @@ function Sections({
                   </h5>
                   <p className="card-text text-muted flex-grow-1">
                     Responsive website to maintain vehicle service using Spring
-                    Boot,React, Tailwind CSS,Oracle SQL.
+                    Boot,React.js, Tailwind CSS,Oracle SQL.
                   </p>
                   <a
                     href="https://github.com/2003raghav/Vehicle-service-management--dr.vehicle"
@@ -439,10 +444,39 @@ function Sections({
                   <h5 className="card-title fw-bold">Quiz Master</h5>
                   <p className="card-text text-muted flex-grow-1">
                     A RESTful API for quiz application using Spring Boot, Java,
-                    OracleSQL and Google Form for managing quizzes and answers.
+                    React.js, OracleSQL, Gemini AI and Google Form for managing
+                    quizzes and answers.
                   </p>
                   <a
                     href="https://github.com/2003raghav/Quiz_Master"
+                    className="btn btn-outline-primary mt-auto w-100"
+                  >
+                    🔗 View Project
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Project Card 5 */}
+            <div className="col-md-4 col-sm-6 mb-4">
+              <div className="card h-100 shadow-sm border-0">
+                <img
+                  src={health}
+                  className="card-img-top img-fluid"
+                  alt="Health Monitoring System"
+                  style={{ height: 200, width: "100%" }}
+                />
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">
+                    Health Monitoring System
+                  </h5>
+                  <p className="card-text text-muted flex-grow-1">
+                    A family-centric health platform desigining using Java,
+                    Spring Boot, React.js, OracleSQL,Tailwind CSS (Ongoing
+                    Project).
+                  </p>
+                  <a
+                    href="https://github.com/2003raghav/Health_monitoring_app"
                     className="btn btn-outline-primary mt-auto w-100"
                   >
                     🔗 View Project
