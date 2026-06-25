@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import coverImage from "../Images/CoverPage.png";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import bank from "../Images/bank.jpg";
@@ -10,6 +10,108 @@ import health from "../Images/Health.png";
 import ResumePDF from "../Images/Raghavendra_Kashyap_resume.pdf";
 import { db } from "../firebaseConfig";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
+/* Lightweight scroll-reveal wrapper — fades content up once when it
+   enters the viewport. Respects prefers-reduced-motion via CSS. */
+function Reveal({ children, className = "", delay = 0, as: Tag = "div" }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Tag
+      ref={ref}
+      className={`reveal ${visible ? "reveal-visible" : ""} ${className}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+const SKILL_GROUPS = [
+  { label: "Languages", skills: ["Java", "Python", "JavaScript"] },
+  {
+    label: "Frontend",
+    skills: ["HTML5", "CSS3", "React.js", "Tailwind CSS", "Bootstrap"],
+  },
+  {
+    label: "Backend",
+    skills: ["Spring Boot", "RESTful APIs", "JDBC", "JPA", "Spring AI"],
+  },
+  { label: "Databases", skills: ["MySQL", "Oracle DB"] },
+  { label: "Tools & Platforms", skills: ["Firebase", "GitHub", "ESP32"] },
+];
+
+const PROJECTS = [
+  {
+    image: bank,
+    title: "Bank Management System",
+    status: "stable",
+    description: "Manages account holder details and transactions end-to-end.",
+    tech: ["Java Swing", "JDBC", "MySQL"],
+    link: "https://github.com/2003raghav/Bank-Management-System",
+  },
+  {
+    image: Portfolio,
+    title: "Portfolio Project",
+    status: "stable",
+    description:
+      "Personal portfolio site showcasing projects, skills, and experience.",
+    tech: ["Java", "React.js", "Firebase"],
+    link: "https://github.com/2003raghav/portfolio",
+  },
+  {
+    image: Servicefront,
+    title: "Vehicle Service Management",
+    status: "stable",
+    description: "Responsive platform for tracking vehicle service records.",
+    tech: ["Spring Boot", "React.js", "Tailwind CSS", "Oracle SQL"],
+    link: "https://github.com/2003raghav/Vehicle-service-management--dr.vehicle",
+  },
+  {
+    image: quiz,
+    title: "Quiz Master",
+    status: "stable",
+    description:
+      "A RESTful quiz application for managing quizzes and answers, with AI-assisted question generation.",
+    tech: ["Spring Boot", "React.js", "Oracle SQL", "Gemini AI"],
+    link: "https://github.com/2003raghav/Quiz_Master",
+  },
+  {
+    image: health,
+    title: "Health Monitoring System",
+    status: "progress",
+    description:
+      "A family-centric health platform for tracking records and check-ups.",
+    tech: ["Spring Boot", "React.js", "Oracle SQL", "Tailwind CSS"],
+    link: "https://github.com/2003raghav/Health_monitoring_app",
+  },
+];
+
+const GOOGLE_FORM_ACTION_URL =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdyS1b4FwCM1UCsOhAG34Vwoe07ObAa-zwOxBxIMyZoHpC45Q/formResponse";
+
+const GOOGLE_FORM_FIELDS = {
+  name: "entry.1392855392",
+  email: "entry.1168363693",
+  message: "entry.77530669",
+};
 
 function Sections({
   homeRef,
@@ -25,108 +127,130 @@ function Sections({
     const email = e.target.email.value;
     const message = e.target.message.value;
 
+    // Submit to Google Forms (fire-and-forget — no-cors means we can't
+    // read the response, but the data still reaches the linked Sheet)
     try {
-      await addDoc(collection(db, "contacts"), {
-        name,
-        email,
-        message,
-        createdAt: serverTimestamp(),
+      const formData = new FormData();
+      formData.append(GOOGLE_FORM_FIELDS.name, name);
+      formData.append(GOOGLE_FORM_FIELDS.email, email);
+      formData.append(GOOGLE_FORM_FIELDS.message, message);
+
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formData,
       });
 
       alert("✅ Message submitted successfully!");
       e.target.reset();
     } catch (err) {
-      console.error("Error adding document: ", err);
+      console.error("Error submitting to Google Form: ", err);
       alert("❌ Something went wrong.");
     }
   };
+
   return (
     <div>
       {/* ================= HOME SECTION ================= */}
       <div ref={homeRef}>
         <div
-          className="position-relative d-flex flex-column justify-content-center align-items-center p-3 p-md-4 p-lg-5"
+          className="hero-section position-relative d-flex flex-column justify-content-center align-items-center p-3 p-md-4 p-lg-5"
           style={{
-            minHeight: "auto", // full viewport height
+            minHeight: "92vh",
             backgroundImage: `url(${coverImage})`,
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            boxShadow: "0 6px 20px rgba(235, 229, 221, 0.8)",
           }}
         >
-          <h1
-            className="fw-bold p-1 p-md-3 m-lg-4 m-5 m-md-5 mt-lg-5 text-center"
-            style={{
-              fontFamily: "cursive",
-              fontSize: "clamp(2.2rem, 6vw, 4rem)",
-            }}
-          >
-            HI I'M RAGHAVENDRA KASHYAP
-          </h1>
+          <div className="hero-content text-center px-2">
+            <span className="eyebrow eyebrow--on-ink justify-content-center">
+              // PORTFOLIO · 2026
+            </span>
 
-          <p className="fs-4 fs-md-4 fs-lg-3 p-2 p-md-3 text-center">
-            Full Stack Java Developer with expertise in building robust backend
-            systems and
-            <br className="d-none d-md-block" />
-            dynamic frontend interfaces using modern web technologies
-          </p>
+            <h1 className="hero-name">HI, I'M RAGHAVENDRA KASHYAP</h1>
 
-          <button
-            className="m-4 btn btn-outline-primary shadow px-4 px-md-5 py-2 py-md-3"
-            style={{ fontSize: "1rem" }}
-            onClick={onProjectsClick}
-          >
-            Projects
-          </button>
+            <span className="hero-terminal">
+              &gt; Full-Stack Java Developer building backend systems and
+              responsive frontends.
+              <span className="cursor-blink" aria-hidden="true"></span>
+            </span>
 
-          <i className="bi bi-chevron-double-down fs-1 m-3 m-md-4 m-lg-5"></i>
+            <p className="hero-stack mb-4">
+              Spring Boot · React.js · MySQL · Spring AI
+            </p>
+
+            <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
+              <button className="btn-trace" onClick={onProjectsClick}>
+                View Projects
+              </button>
+              <a href={ResumePDF} target="_blank" rel="noopener noreferrer">
+                <button className="btn-ghost-copper">Download Résumé</button>
+              </a>
+            </div>
+
+            <div className="status-line">
+              <span className="status-dot"></span>
+              Available for new opportunities — Bengaluru, IN
+            </div>
+          </div>
 
           {/* Left Sidebar (Desktop only) */}
           <div
-            className="position-absolute d-none d-lg-flex flex-column align-items-center justify-content-center bg-white py-3"
+            className="hero-rail position-absolute d-none d-lg-flex flex-column align-items-center justify-content-center py-3"
             style={{
               left: 0,
               top: "40%",
               transform: "translateY(-50%)",
-              width: "50px",
+              width: "52px",
               height: "auto",
-              borderTopRightRadius: "10px",
-              borderBottomRightRadius: "10px",
-              boxShadow: "4px 4px 8px rgba(0,0,0,0.1)",
-              zIndex: 1050,
+              borderTopRightRadius: "12px",
+              borderBottomRightRadius: "12px",
+              zIndex: 2,
             }}
           >
             <a
               href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/"
               target="_blank"
-              className="my-2 text-dark"
+              rel="noopener noreferrer"
+              className="my-2"
+              aria-label="LinkedIn"
             >
               <i className="bi bi-linkedin fs-4"></i>
             </a>
 
-            <a href="mailto:rkahyap2003@gmail.com" className="my-2 text-dark">
+            <a
+              href="mailto:rkahyap2003@gmail.com"
+              className="my-2"
+              aria-label="Email"
+            >
               <i className="bi bi-envelope fs-4"></i>
             </a>
 
             <a
               href="https://github.com/2003raghav"
               target="_blank"
-              className="my-2 text-dark"
+              rel="noopener noreferrer"
+              className="my-2"
+              aria-label="GitHub"
             >
               <i className="bi bi-github fs-3"></i>
             </a>
             <a
               href="https://www.instagram.com/rkashyap2003/"
               target="_blank"
-              className="my-2 text-dark"
+              rel="noopener noreferrer"
+              className="my-2"
+              aria-label="Instagram"
             >
               <i className="bi bi-instagram fs-4"></i>
             </a>
             <a
               href="https://www.facebook.com/profile.php?id=100081586262153"
               target="_blank"
-              className="my-2 text-dark"
+              rel="noopener noreferrer"
+              className="my-2"
+              aria-label="Facebook"
             >
               <i className="bi bi-facebook fs-4"></i>
             </a>
@@ -134,40 +258,51 @@ function Sections({
 
           {/* Bottom Bar (Mobile/Tablet only) */}
           <div
-            className="position-relative d-flex d-lg-none justify-content-center  align-items-center bg-white w-100 py-2 mt-2 mt-md-3"
-            style={{
-              top: "100%",
-              left: 0,
-              borderTop: "1px solid #ddd",
-              boxShadow: "0 -2px 6px rgba(0,0,0,0.1)",
-              zIndex: 1050,
-            }}
+            className="hero-dock position-relative d-flex d-lg-none justify-content-center align-items-center w-100 py-3 mt-4"
+            style={{ zIndex: 2 }}
           >
             <a
               href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/"
-              className="mx-3 text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mx-3"
+              aria-label="LinkedIn"
             >
               <i className="bi bi-linkedin fs-5"></i>
             </a>
 
-            <a href="mailto:rkahyap2003@gmail.com" className="mx-3 text-dark">
+            <a
+              href="mailto:rkahyap2003@gmail.com"
+              className="mx-3"
+              aria-label="Email"
+            >
               <i className="bi bi-envelope fs-5"></i>
             </a>
 
-            <a href="https://github.com/2003raghav" className="mx-3 text-dark">
+            <a
+              href="https://github.com/2003raghav"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mx-3"
+              aria-label="GitHub"
+            >
               <i className="bi bi-github fs-5"></i>
             </a>
             <a
               href="https://www.instagram.com/rkashyap2003/"
               target="_blank"
               rel="noopener noreferrer"
-              className="mx-3 text-dark"
+              className="mx-3"
+              aria-label="Instagram"
             >
               <i className="bi bi-instagram fs-5"></i>
             </a>
             <a
               href="https://www.facebook.com/profile.php?id=100081586262153"
-              className="mx-3 text-dark"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mx-3"
+              aria-label="Facebook"
             >
               <i className="bi bi-facebook fs-5"></i>
             </a>
@@ -176,160 +311,140 @@ function Sections({
       </div>
 
       {/* ================= ABOUT SECTION ================= */}
-      <div
-        ref={aboutRef}
-        className="position-relative d-flex flex-column bg-light "
-        style={{
-          minHeight: "auto",
-          boxShadow: "inset 0 10px 20px rgba(0,0,0,0.05)",
-          background: "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
-        }}
-      >
-        {/* Heading */}
-        <h1 className="text-center py-5 fw-bold text-dark ">
-          ABOUT ME
-          <div
-            className="mx-auto bg-primary mt-3"
-            style={{ height: "4px", width: "25%" }}
-          ></div>
-        </h1>
+      <div ref={aboutRef} className="about-section position-relative py-5">
+        <div className="container">
+          <Reveal className="text-center mb-5">
+            <span className="eyebrow eyebrow--on-paper justify-content-center">
+              // ABOUT
+            </span>
+            <h1 className="section-heading text-dark">About Me</h1>
+          </Reveal>
 
-        {/* Content */}
-        <div className="container pb-5 ">
           <div className="row g-4">
             {/* Left Column - About Text */}
             <div className="col-md-7">
-              <div className="card shadow-sm border-0 rounded-4 h-100 border-primary">
-                <div className="card-body p-4">
+              <Reveal className="panel h-100" as="div">
+                <div className="card-body p-4 p-lg-5">
                   <h2
-                    className="fw-bold text-primary mb-3"
-                    style={{ fontFamily: "cursive" }}
+                    className="fw-bold mb-3"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      color: "var(--text-paper)",
+                    }}
                   >
                     Hello 👋
                   </h2>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I am a{" "}
-                    <span className="fw-bold text-primary">
-                      Full-Stack Developer
-                    </span>{" "}
-                    with a strong focus on building responsive and user-friendly{" "}
-                    <b>Frontend</b> applications, while also developing scalable{" "}
-                    <b>Backend</b> solutions using{" "}
-                    <span className="fw-bold text-primary">Java</span> and
-                    <span className="fw-bold text-success">Spring Boot</span>.
-                    Experienced in Websites, Web Applications, and IoT projects
-                    using <span className="fw-bold text-warning">ESP32</span>{" "}
-                    with real-time Firebase integration.
+                  <p className="bio-copy">
+                    I'm a{" "}
+                    <span className="accent-teal">full-stack developer</span>{" "}
+                    who builds responsive, user-friendly{" "}
+                    <strong>frontends</strong> and scalable{" "}
+                    <strong>backends</strong> with{" "}
+                    <span className="accent-teal">Java</span> and{" "}
+                    <span className="accent-teal">Spring Boot</span>. I've also
+                    shipped IoT projects on{" "}
+                    <span className="accent-copper">ESP32</span> with real-time
+                    Firebase integration.
                   </p>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I enjoy sharing knowledge and contributing to the developer
-                    community through projects and discussions. Connect with me
-                    on{" "}
+                  <p className="bio-copy">
+                    I enjoy sharing what I learn and contributing to the
+                    developer community through projects and discussions —
+                    connect with me on{" "}
                     <a
                       href="https://www.linkedin.com/in/raghavendra-kashyap-c-b-05372b261/"
-                      className="fw-bold text-decoration-none text-primary"
+                      className="accent-ink"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       LinkedIn
                     </a>{" "}
-                    where I share content about Web Development, Programming,
-                    and IoT.
+                    where I post about web development, programming, and IoT.
                   </p>
 
-                  <p className="fs-5 lh-lg text-muted">
-                    I am open to exciting opportunities where I can contribute,
-                    learn, and grow. If you have a role matching my skills, feel
-                    free to <span className="fw-bold text-dark">reach out</span>
-                    .
+                  <p className="bio-copy mb-4">
+                    I'm open to roles where I can contribute, learn, and grow —
+                    if that sounds like a fit, reach out below.
                   </p>
 
-                  {/* CTA Button */}
                   <a
                     href={ResumePDF}
-                    className="btn btn-primary btn-lg rounded-pill mt-3 shadow"
+                    className="btn-trace"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    📄 Download Resume
+                    Download Résumé
                   </a>
                 </div>
-              </div>
+              </Reveal>
             </div>
 
             {/* Right Column - Skills & Education */}
             <div className="col-md-5 d-flex flex-column gap-4">
               {/* Skills Section */}
-              <div className="card shadow-sm border  rounded-4 h-auto text-center">
+              <Reveal className="panel" delay={100}>
                 <div className="card-body p-4">
                   <h2
-                    className="fw-bold text-success mb-4"
-                    style={{ fontFamily: "cursive" }}
+                    className="fw-bold mb-4"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      color: "var(--text-paper)",
+                    }}
                   >
                     Skills
                   </h2>
 
-                  <div className="d-flex flex-wrap justify-content-center gap-2">
-                    {[
-                      "Java",
-                      "Python",
-                      "HTML5",
-                      "CSS3",
-                      "Spring Boot",
-                      "MySQL",
-                      "Oracle DB",
-                      "My SQL",
-                      "JDBC",
-                      "JPA",
-                      "JavaScript",
-                      "RESTful APIs",
-                      "React.js",
-                      "Tailwind CSS",
-                      "Bootstrap",
-                      "Firebase",
-                      "GitHub",
-                      "ESP32",
-                    ].map((skill, index) => (
-                      <span
-                        key={index}
-                        className="badge rounded-pill text-bg-light border border-primary px-3 py-2 fs-6 fw-semibold shadow-sm"
-                        style={{ width: "150px" }}
-                      >
-                        {skill}
-                      </span>
+                  <div className="d-flex flex-column gap-3">
+                    {SKILL_GROUPS.map((group) => (
+                      <div key={group.label}>
+                        <div className="skill-group-title">{group.label}</div>
+                        <div className="d-flex flex-wrap gap-2">
+                          {group.skills.map((skill) => (
+                            <span key={skill} className="skill-tag">
+                              {skill}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </div>
-              </div>
+              </Reveal>
 
               {/* Education Section */}
-              <div className="card shadow-sm border rounded-4 h-auto text-start">
+              <Reveal className="panel" delay={200}>
                 <div className="card-body p-4">
                   <h2
-                    className="fw-bold text-primary mb-4 text-center"
-                    style={{ fontFamily: "cursive" }}
+                    className="fw-bold mb-4"
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      color: "var(--text-paper)",
+                    }}
                   >
                     Education
                   </h2>
-                  <ul className="list-unstyled fs-6 lh-lg">
-                    <li className="mb-2">
+                  <ul className="timeline">
+                    <li>
                       <strong>Bachelor of Engineering (ISE)</strong>
                       <br />
-                      MVJ College of Engineering, 2022-2026 | 8.52 CGPA
+                      <span>
+                        MVJ College of Engineering, 2022–2026 · 8.52 CGPA
+                      </span>
                     </li>
-                    <li className="mb-2">
+                    <li>
                       <strong>12th Standard</strong>
                       <br />
-                      St Mary’s PU College, 2020-2022 | 94.3%
+                      <span>St Mary's PU College, 2020–2022 · 94.3%</span>
                     </li>
-                    <li className="mb-2">
+                    <li>
                       <strong>10th Standard</strong>
                       <br />
-                      St Mary’s PU College, 2019-2020 | 92.8%
+                      <span>St Mary's PU College, 2019–2020 · 92.8%</span>
                     </li>
                   </ul>
                 </div>
-              </div>
+              </Reveal>
             </div>
           </div>
         </div>
@@ -338,152 +453,65 @@ function Sections({
       {/* ================= PROJECT SECTION ================= */}
       <div
         ref={projectsRef}
-        className="text-center position-relative px-3 d-flex flex-column justify-content-center align-items-center bg-light"
-        style={{
-          minHeight: "auto",
-          background: "linear-gradient(to bottom,#ffffff 0%,#ebe5dd 100%)",
-          boxShadow: "inset 0 10px 20px rgba(0,0,0,0.05)",
-        }}
+        className="projects-section position-relative px-3 py-5"
       >
-        <h1 className="fs-2 fw-bold mt-5">My Projects</h1>
-        <div
-          className="mx-auto bg-primary mt-2 mb-5 rounded"
-          style={{ height: "4px", width: "25%" }}
-        ></div>
-
         <div className="container">
-          <div className="row g-4 mb-5">
-            {/* Project Card 1 */}
-            <div className="col-md-4 col-sm-6 mb-4">
-              <div className="card h-100 shadow-sm border-0">
-                <img
-                  src={bank}
-                  className="card-img-top"
-                  alt="Bank Management System"
-                  style={{ height: "200px", width: "100%" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">Bank Management System</h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    Manages account holder details and transactions. Built with
-                    Java Swing, JDBC, MySQL.
-                  </p>
-                  <a
-                    href="https://github.com/2003raghav/Bank-Management-System"
-                    className="btn btn-outline-primary mt-auto w-100"
-                  >
-                    🔗 View Project
-                  </a>
-                </div>
-              </div>
-            </div>
+          <Reveal className="text-center mb-5">
+            <span className="eyebrow eyebrow--on-ink justify-content-center">
+              // PROJECTS
+            </span>
+            <h1
+              className="section-heading"
+              style={{ color: "var(--text-ink)" }}
+            >
+              Selected Work
+            </h1>
+          </Reveal>
 
-            {/* Project Card 2 */}
-            <div className="col-md-4 col-sm-6 mb-4">
-              <div className="card h-100 shadow-sm border-0">
-                <img
-                  src={Portfolio}
-                  className="card-img-top"
-                  alt="Portfolio"
-                  style={{ height: "200px", width: "100%" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">Portfolio Project</h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    Portfolio website showcasing projects built with Java,
-                    JavaScript, React.js, MySQL, and Firebase, highlighting my
-                    skills and experience
-                  </p>
-                  <a
-                    href="https://github.com/2003raghav/portfolio"
-                    className="btn btn-outline-primary mt-auto w-100"
-                  >
-                    🔗 View Project
-                  </a>
+          <div className="row g-4">
+            {PROJECTS.map((project, index) => (
+              <Reveal
+                key={project.title}
+                className="col-md-6 col-lg-4"
+                delay={index * 80}
+              >
+                <div className="project-card h-100 d-flex flex-column">
+                  <div className="project-thumb">
+                    <span
+                      className={`status-badge ${
+                        project.status === "stable"
+                          ? "status-badge--stable"
+                          : "status-badge--progress"
+                      }`}
+                    >
+                      {project.status === "stable" ? "Stable" : "In progress"}
+                    </span>
+                    <img src={project.image} alt={project.title} />
+                  </div>
+                  <div className="p-4 d-flex flex-column flex-grow-1">
+                    <h5 className="project-title mb-2">{project.title}</h5>
+                    <p className="project-desc flex-grow-1">
+                      {project.description}
+                    </p>
+                    <div className="d-flex flex-wrap gap-2 mb-3">
+                      {project.tech.map((t) => (
+                        <span key={t} className="tech-tag">
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-source w-100"
+                    >
+                      ›_ View source
+                    </a>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Project Card 3 */}
-            <div className="col-md-4 col-sm-6 mb-4">
-              <div className="card h-100 shadow-sm border-0">
-                <img
-                  src={Servicefront}
-                  className="card-img-top img-fluid"
-                  alt="Vehicle Service Management"
-                  style={{ height: "200px", width: "100%" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">
-                    Vehicle Service Management{" "}
-                  </h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    Responsive website to maintain vehicle service using Spring
-                    Boot,React.js, Tailwind CSS,Oracle SQL.
-                  </p>
-                  <a
-                    href="https://github.com/2003raghav/Vehicle-service-management--dr.vehicle"
-                    className="btn btn-outline-primary mt-auto w-100"
-                  >
-                    🔗 View Project
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Project Card 4 */}
-            <div className="col-md-4 col-sm-6 mb-4">
-              <div className="card h-100 shadow-sm border-0">
-                <img
-                  src={quiz}
-                  className="card-img-top img-fluid"
-                  alt="Quiz Master"
-                  style={{ height: 200, width: "100%" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">Quiz Master</h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    A RESTful API for quiz application using Spring Boot, Java,
-                    React.js, OracleSQL, Gemini AI and Google Form for managing
-                    quizzes and answers.
-                  </p>
-                  <a
-                    href="https://github.com/2003raghav/Quiz_Master"
-                    className="btn btn-outline-primary mt-auto w-100"
-                  >
-                    🔗 View Project
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Project Card 5 */}
-            <div className="col-md-4 col-sm-6 mb-4">
-              <div className="card h-100 shadow-sm border-0">
-                <img
-                  src={health}
-                  className="card-img-top img-fluid"
-                  alt="Health Monitoring System"
-                  style={{ height: 200, width: "100%" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title fw-bold">
-                    Health Monitoring System
-                  </h5>
-                  <p className="card-text text-muted flex-grow-1">
-                    A family-centric health platform desigining using Java,
-                    Spring Boot, React.js, OracleSQL,Tailwind CSS (Ongoing
-                    Project).
-                  </p>
-                  <a
-                    href="https://github.com/2003raghav/Health_monitoring_app"
-                    className="btn btn-outline-primary mt-auto w-100"
-                  >
-                    🔗 View Project
-                  </a>
-                </div>
-              </div>
-            </div>
+              </Reveal>
+            ))}
           </div>
         </div>
       </div>
@@ -491,82 +519,73 @@ function Sections({
       {/* ================= CONTACT SECTION ================= */}
       <div
         ref={contactRef}
-        className="position-relative px-3 d-flex flex-column justify-content-center align-items-center"
-        style={{
-          minHeight: "auto",
-          backgroundImage: `url(${coverImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          boxShadow: "inset 0 10px 20px rgba(0,0,0,0.1)",
-        }}
+        className="contact-section position-relative px-3 py-5 d-flex flex-column justify-content-center align-items-center"
       >
-        <form
-          className="w-100 w-sm-80 w-md-75 w-lg-60 h-auto p-4 p-md-5 shadow bg-white rounded mx-auto m-5"
+        <Reveal className="text-center mb-4">
+          <span className="eyebrow eyebrow--on-paper justify-content-center">
+            // CONTACT
+          </span>
+          <h1 className="section-heading text-dark">Let's Build Something</h1>
+          <p className="bio-copy mx-auto" style={{ maxWidth: 480 }}>
+            Have a role, project, or idea in mind? Send a message and I'll get
+            back to you.
+          </p>
+        </Reveal>
+
+        <Reveal
+          className="contact-panel w-100 p-4 p-md-5 mx-auto"
           style={{ maxWidth: 600, minWidth: 280 }}
-          onSubmit={handleSubmit}
         >
-          <h1 className="mb-4 fs-3 text-center">Contact Me!</h1>
-
-          <div className="mb-3">
-            <label htmlFor="name" className="form-label fw-bold">
-              Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="name"
-              name="name"
-              required
-              style={{
-                background:
-                  "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
-              }}
-            />
-          </div>
-
-          <div className="mb-3">
-            <label htmlFor="email" className="form-label fw-bold">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              required
-              style={{
-                background:
-                  "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
-              }}
-            />
-            <div id="emailHelp" className="form-text fw-bold">
-              We'll never share your email with anyone else.
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label htmlFor="name" className="form-label-mono d-block mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                className="form-control form-control-trace"
+                id="name"
+                name="name"
+                required
+              />
             </div>
-          </div>
 
-          <div className="mb-3">
-            <label htmlFor="message" className="form-label fw-bold">
-              Message
-            </label>
-            <textarea
-              className="form-control"
-              id="message"
-              name="message"
-              rows="4"
-              required
-              style={{
-                background:
-                  "linear-gradient(to bottom, #ebe5dd 0%, #ffffff 100%)",
-              }}
-            ></textarea>
-          </div>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label-mono d-block mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                className="form-control form-control-trace"
+                id="email"
+                name="email"
+                required
+              />
+              <div id="emailHelp" className="form-help mt-2">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
 
-          <div className="text-center px-4 p-3">
-            <button type="submit" className="btn btn-primary w-50 w-sm-auto">
-              Submit
-            </button>
-          </div>
-        </form>
+            <div className="mb-4">
+              <label htmlFor="message" className="form-label-mono d-block mb-2">
+                Message
+              </label>
+              <textarea
+                className="form-control form-control-trace"
+                id="message"
+                name="message"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div className="text-center">
+              <button type="submit" className="btn-trace w-50">
+                Send Message
+              </button>
+            </div>
+          </form>
+        </Reveal>
       </div>
     </div>
   );
